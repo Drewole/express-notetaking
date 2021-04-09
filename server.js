@@ -37,7 +37,6 @@ app.get('/api/notes', (req, res) => {
     console.log("This worked");
 
     readFile(res);
-    res.json(allNotes)
   }
   
  });
@@ -47,7 +46,6 @@ app.post('/api/notes', (req, res) => {
   const newNote = req.body;
   // Use the nano ID package to assign a 4 integer unique ID
   newNote.id = nanoid(4);
-
   // Add the new note
   allNotes.push(newNote);
   // Send the notes back to the client
@@ -77,7 +75,7 @@ function readFile(res) {
       console.log(theData)
 
       allNotes = theData;
-      
+      res.json(allNotes)
     });
 }
 // Listener
