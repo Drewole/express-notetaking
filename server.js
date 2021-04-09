@@ -18,16 +18,18 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 ////////////////// Routes
+
+// Home Page Route
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '/public/index.html'))
 });
 
+// Notes Page Route
 app.get('/notes', (req, res) => {
   res.sendFile(path.join(__dirname, '/public/notes.html'))
 });
 
-// app.get('/api/notes', (req, res) => res.json(allNotes));
-
+// Get data from the json file route
 app.get('/api/notes', (req, res) => {
   
   if( res === undefined ){
@@ -40,7 +42,7 @@ app.get('/api/notes', (req, res) => {
   }
   
  });
-
+// Post data to the 
 app.post('/api/notes', (req, res) => {
   // Lets assign the note deets to a new const
   const newNote = req.body;
