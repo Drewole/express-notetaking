@@ -1,13 +1,14 @@
 {
   "name": "note-taker",
   "version": "1.0.0",
-  "description": "",
+  "description": "Simple note-taking app",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "watch": "nodemon server.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Drew Olsen",
+  "license": "MIT",
   "dependencies": {
     "express": "^4.17.1",
     "nodemon": "^2.0.7"
