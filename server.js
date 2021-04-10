@@ -42,6 +42,17 @@ app.get('/api/notes', (req, res) => {
   }
   
  });
+ // Delete item based on ID and re-render things
+app.delete('/api/notes/:id', (req,res) => {
+    const existingNotes = fs.readFileSync(‘./db/db.json’, ‘utf-8’);
+    const existingNotesJson = JSON.parse(existingNotes)
+    let noteId = req.params.id;
+    console.log(id);
+    const filteredNotes = existingNotesJson.filter(note => note.id != noteId)
+    console.log(filteredNotes)
+    fs.writeFileSync(‘./db/db.json’, JSON.stringify(filteredNotes));
+    res.end();
+});
 // Post data to the 
 app.post('/api/notes', (req, res) => {
   // Lets assign the note deets to a new const
@@ -54,8 +65,14 @@ app.post('/api/notes', (req, res) => {
   res.json(allNotes);
 
   allNotes = JSON.stringify(allNotes);
+  writeFile(allNotes);
 
   // This is where we will read data from the database.
+    
+    // Lets push the new note into the local array
+});
+function writeFile(data) {
+    // This is where we will write the data
     fs.writeFile('./db/db.json', allNotes, (err,data) => {
       if (err) throw err;
       let theData = data;
@@ -64,11 +81,7 @@ app.post('/api/notes', (req, res) => {
       allNotes = theData;
       
     });
-    // Lets push the new note into the local array
-});
-// function writeFile(data) {
-//     // This is where we will write the data
-// }
+}
 function readFile(res) {
     // This is where we will read data from the database.
     fs.readFile('./db/db.json', (err,data) => {
