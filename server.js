@@ -44,14 +44,19 @@ app.get('/api/notes', (req, res) => {
  });
  // Delete item based on ID and re-render things
 app.delete('/api/notes/:id', (req,res) => {
-    const existingNotes = fs.readFileSync(‘./db/db.json’, ‘utf-8’);
-    const existingNotesJson = JSON.parse(existingNotes)
+    if( res === undefined ){
+    console.log("bad route")
+    res.send("You done messed up, Aaron");
+  } else {
+    console.log("This worked");
+
+    readFile(res);
     let noteId = req.params.id;
-    console.log(id);
-    const filteredNotes = existingNotesJson.filter(note => note.id != noteId)
-    console.log(filteredNotes)
-    fs.writeFileSync(‘./db/db.json’, JSON.stringify(filteredNotes));
-    res.end();
+    const notesFiltered = allNotes.filter(note => note.id != noteId);
+    writeFile(notesFiltered);
+    res.json(notesFiltered)
+  }
+    
 });
 // Post data to the 
 app.post('/api/notes', (req, res) => {
@@ -63,8 +68,7 @@ app.post('/api/notes', (req, res) => {
   allNotes.push(newNote);
   // Send the notes back to the client
   res.json(allNotes);
-
-  allNotes = JSON.stringify(allNotes);
+  // Write the array to the json file
   writeFile(allNotes);
 
   // This is where we will read data from the database.
@@ -72,11 +76,11 @@ app.post('/api/notes', (req, res) => {
     // Lets push the new note into the local array
 });
 function writeFile(data) {
+    let jsonData = JSON.stringify(data);
     // This is where we will write the data
-    fs.writeFile('./db/db.json', allNotes, (err,data) => {
+    fs.writeFile('./db/db.json', jsonData, (err,data) => {
       if (err) throw err;
       let theData = data;
-      console.log(theData)
 
       allNotes = theData;
       
@@ -87,8 +91,6 @@ function readFile(res) {
     fs.readFile('./db/db.json', (err,data) => {
       if (err) throw err;
       let theData = JSON.parse(data);
-      console.log(theData)
-
       allNotes = theData;
       res.json(allNotes)
     });
